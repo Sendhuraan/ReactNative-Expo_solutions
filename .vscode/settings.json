@@ -1,0 +1,7 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.singleQuote": true,
+    "prettier.jsxSingleQuote": true,
+    "editor.formatOnSave": true,
+    "javascript.preferences.quoteStyle": "single"
+}
