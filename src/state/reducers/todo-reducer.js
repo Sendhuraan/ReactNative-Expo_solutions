@@ -3,13 +3,12 @@ import {
 	TOGGLE_TODO,
 	DELETE_TODO,
 	SET_TODOS
-
 } from '../constants/action-types';
 
 import { generateUniqueID } from '../utilities';
 
 function todoReducer(state = [], action) {
-	switch(action.type) {
+	switch (action.type) {
 		case SET_TODOS:
 			return apply_setTodos(state, action);
 			break;
@@ -41,7 +40,7 @@ function apply_addTodo(state, action) {
 		completed: false
 	};
 
-	newState.push(newTodo);
+	newState.unshift(newTodo);
 
 	return newState;
 }
@@ -51,11 +50,10 @@ function apply_toggleTodo(state, action) {
 	let newState = [...state];
 
 	let todoToggled = newState.map(function(todo) {
-		if(todo.id === id) {
+		if (todo.id === id) {
 			todo.completed = !todo.completed;
 			return todo;
-		}
-		else {
+		} else {
 			return todo;
 		}
 	});
@@ -70,7 +68,7 @@ function apply_deleteTodo(state, action) {
 	let newState = [...state];
 
 	let todoDeleted = newState.filter(function(todo) {
-		return (todo.id !== id);
+		return todo.id !== id;
 	});
 
 	newState = todoDeleted;

@@ -1,44 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
 
-import { toggleTodo, deleteTodo } from '../../state/actions/todo-actions';
-
-import './index.css';
+import {
+	getTodos,
+	toggleTodo,
+	deleteTodo
+} from '../../state/actions/todo-actions';
 
 function TodoItems(props) {
-	const { todos } = props;
+	const { getTodos, todos } = props;
+
+	useEffect(function fetchTodosFromAPI() {
+		getTodos();
+	}, []);
 
 	return (
-		<div className='TodoItems'>
-			<ul>
-				{
-					todos.map(function(todo) {
-
-						return (
-							<li key={todo.id} className={`${todo.completed ? 'completed' : 'pending'}`}>
-							{todo.title}
-								<div className='actions'>
-									<span
-										className={todo.completed ? 'hide' : 'done'}
-										onClick={() => props.toggleTodo(todo.id)}
-									>
-										<i className='fa fa-check'></i>
-									</span>
-
-									<span
-										className='trash'
-										onClick={() => props.deleteTodo(todo.id)}
-									>
-										<i className='fa fa-trash'></i>
-									</span>
-								</div>
-							</li>
-						);
-					
-					})
-				}
-			</ul>
-		</div>
+		<View>
+			<FlatList
+				data={todos}
+				renderItem={({ item }) => <Text>{item.title}</Text>}
+				keyExtractor={item => item.id.toString()}
+			/>
+		</View>
 	);
 }
 
@@ -48,4 +32,6 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { toggleTodo, deleteTodo })(TodoItems);
+export default connect(mapStateToProps, { getTodos, toggleTodo, deleteTodo })(
+	TodoItems
+);

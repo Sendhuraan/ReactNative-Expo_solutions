@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
 
 import TodoForm from './src/components/TodoForm';
 import TodoItems from './src/components/TodoItems';
+import store from './src/state/store';
 
 export default function App() {
-	const [displayText, setDisplayText] = useState('Yuck');
-
 	return (
-		<View style={styles.container}>
-			<Text>{displayText}</Text>
-			<Button
-				title="Click to change Text"
-				onPress={() => setDisplayText('Changed Text!')}
-			/>
-			<TodoForm />
-			<TodoItems />
-		</View>
+		<Provider store={store}>
+			<View style={styles.container}>
+				<TodoForm />
+				<TodoItems />
+			</View>
+		</Provider>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: 100,
 		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',

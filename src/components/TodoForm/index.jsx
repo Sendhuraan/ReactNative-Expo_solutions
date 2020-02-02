@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { StyleSheet, View, Button, TextInput } from 'react-native';
 
 import { addTodo } from '../../state/actions/todo-actions';
 
-import './index.css';
+const styles = StyleSheet.create({
+	container: {
+		marginTop: 50
+	},
+	red: {
+		color: 'red'
+	}
+});
 
 class TodoForm extends Component {
 	constructor(props) {
@@ -17,14 +25,13 @@ class TodoForm extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleChange(e) {
+	handleChange(text) {
 		this.setState({
-			todo: e.target.value
+			todo: text
 		});
 	}
 
-	handleSubmit(e) {
-		e.preventDefault();
+	handleSubmit() {
 		this.props.addTodo(this.state.todo);
 		this.setState({
 			todo: ''
@@ -33,18 +40,14 @@ class TodoForm extends Component {
 
 	render() {
 		return (
-			<div className='TodoForm'>
-				<h1>Add Task:</h1>
-
-				<form onSubmit={this.handleSubmit}>
-					<input
-						type='text'
-						value={this.state.todo}
-						name='todo'
-						onChange={this.handleChange}
-					/>
-				</form>
-			</div>
+			<View style={styles.container}>
+				<TextInput
+					placeholder="Type to enter todo"
+					value={this.state.todo}
+					onChangeText={this.handleChange}
+				/>
+				<Button onPress={this.handleSubmit} title="Add Todo"></Button>
+			</View>
 		);
 	}
 }
