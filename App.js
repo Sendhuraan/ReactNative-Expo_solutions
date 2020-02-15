@@ -1,28 +1,70 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
+import * as React from 'react';
+import { View, Text, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import TodoForm from './src/components/TodoForm';
-import TodoItems from './src/components/TodoItems';
-import store from './src/state/store';
+function Login(props) {
+	const { navigation } = props;
 
-export default function App() {
 	return (
-		<Provider store={store}>
-			<View style={styles.container}>
-				<TodoForm />
-				<TodoItems />
-			</View>
-		</Provider>
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Text>Home Screen</Text>
+			<Button
+				title="Go to Dashboard"
+				onPress={() => {
+					navigation.navigate('AppTabs');
+				}}
+			/>
+		</View>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		marginTop: 100,
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-});
+function Dashboard() {
+	return (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Text>Dashboard Screen</Text>
+		</View>
+	);
+}
+
+function Profile(props) {
+	const { navigation } = props;
+
+	return (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Text>Profile Screen</Text>
+			<Button
+				title="Go to Login"
+				onPress={() => {
+					navigation.navigate('Login');
+				}}
+			/>
+		</View>
+	);
+}
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function AppTabs() {
+	return (
+		<Tab.Navigator>
+			<Tab.Screen name="Dashboard" component={Dashboard} />
+			<Tab.Screen name="Profile" component={Profile} />
+		</Tab.Navigator>
+	);
+}
+
+function App() {
+	return (
+		<NavigationContainer>
+			<Stack.Navigator>
+				<Stack.Screen name="Login" component={Login} />
+				<Stack.Screen name="AppTabs" component={AppTabs} />
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
+}
+
+export default App;
